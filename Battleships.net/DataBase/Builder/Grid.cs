@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Battleships.net.DataBase.Builder
 {
-    class Grid
+    public class Grid
     {
         public virtual Guid GridId { get; set; }
         public virtual string Coordinate { get; set; }

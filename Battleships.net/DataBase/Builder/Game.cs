@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battleships.net.DataBase.Builder
 {
-    class Game
+    public class Game
     {
         public virtual Guid GameId { get; set; }
         public virtual System.DateTime StartedAt { get; set; }

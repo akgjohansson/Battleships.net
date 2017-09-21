@@ -194,6 +194,7 @@
     <Compile Include="DataBase\Builder\Player.cs" />
     <Compile Include="DataBase\Builder\Ship.cs" />
     <Compile Include="DataBase\Builder\User.cs" />
+    <Compile Include="DataBase\Setup\Setup.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

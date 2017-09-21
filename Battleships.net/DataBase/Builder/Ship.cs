@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battleships.net.DataBase.Builder
 {
-    class Ship
+    public class Ship
     {
         public virtual Guid ShipId { get; set; }
         public virtual System.String StartGrid { get; set; }
