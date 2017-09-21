@@ -8,9 +8,9 @@ using NHibernate.Mapping.ByCode;
 
 
 
-namespace DataBaseManager
+namespace Battleships
 {
-    class AutoMapper
+    public class AutoMapper
     {
         private readonly ModelMapper _modelMapper;
         public AutoMapper()
