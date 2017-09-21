@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Battleships.net.Models;
 
 namespace Battleships.net.Controllers
 {
@@ -41,7 +40,7 @@ namespace Battleships.net.Controllers
 
         [HttpGet]
         [Route("login") ]
-        public IHttpActionResult login(string username)
+        public IHttpActionResult Login(string username)
         {
             // Log-In i databas
             var newPlayer = new Player() { Name = username };
