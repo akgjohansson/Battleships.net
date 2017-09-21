@@ -102,9 +102,18 @@ namespace Battleships.net.DataBase.Setup
             }
         }
 
+        public List<Grid> GetGrid()
+        {
+            return Session.Query<Grid>().ToList();
+        }
+        public List<Grid> GetGrid(string coordinate)
+        {
+            return Session.Query<Grid>().Where(c => c.Coordinate.ToLower() == coordinate.ToLower()).ToList();
+        }
+
         public void Cleanup()
         {
-            
+            //Session.Query<Grid>().De
         }
 
         private bool DoesPlayerExist(string name, bool caseSensitive = false)
