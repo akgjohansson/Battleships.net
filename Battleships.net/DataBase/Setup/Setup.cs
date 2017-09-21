@@ -34,9 +34,47 @@ namespace Battleships.net.DataBase.Setup
             return user;
         }
 
+        public Game CreateGame(Player player1, Player player2)
+        {
+            Game game = new Game
+            {
+                Players = new List<Player>
+                {
+                    player1 , player2
+                },
+                StartedAt = DateTime.Now
+            };
+            Session.Save(game);
+            return game;
+        }
+
+        public Player AddPlayer(string name)
+        {
+            User user = AddAndOrLoadUser(name);
+            Player player = new Player
+            {
+                User = user,
+            };
+            return player;
+        }
+
+
         public void SetupGrid(int rows, int columns)
         {
-            throw new NotImplementedException();
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    Grid grid = new Grid
+                    {
+                        Coordinate = $"{((char)(i + 65))}{j + 1}",
+                        IsHit = false
+                    };
+                    Session.Save(grid);
+                }
+            }
+            
         }
 
         private bool CanShipFitHere(string startGrid, string orientation, int length)
@@ -63,10 +101,16 @@ namespace Battleships.net.DataBase.Setup
             }
         }
 
+        public void Cleanup()
+        {
+
+        }
+
         private bool DoesPlayerExist(string name, bool caseSensitive = false)
         {
             throw new NotImplementedException();
         }
+
 
 
     }
