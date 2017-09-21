@@ -14,7 +14,7 @@ namespace Battleships.net.DataBase.Setup
         public ISession Session { get; set; }
         public Setup(ISession session)
         {
-            
+            Session = session;
         }
         private User AddAndOrLoadUser(string name)
         {
@@ -59,7 +59,6 @@ namespace Battleships.net.DataBase.Setup
             };
             return player;
         }
-
 
         public void SetupGrid(int rows, int columns)
         {
