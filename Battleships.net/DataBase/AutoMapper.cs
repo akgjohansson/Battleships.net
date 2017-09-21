@@ -29,7 +29,7 @@ namespace Battleships
         {
             _modelMapper.Class<Game>(e =>
             {
-                e.Id(p => p.Id, p => p.Generator(Generators.GuidComb));
+                e.Id(p => p.GameId, p => p.Generator(Generators.GuidComb));
                 e.Property(p => p.StartedAt);
                 e.Set(p => p.Players, p =>
                 {
@@ -43,8 +43,7 @@ namespace Battleships
         {
             _modelMapper.Class<Player>(e =>
             {
-                e.Id(p => p.Id, p => p.Generator(Generators.GuidComb));
-                e.Property(p => p.UserId);
+                e.Id(p => p.PlayerId, p => p.Generator(Generators.GuidComb));
                 e.Set(p => p.Ship, p =>
                 {
                     p.Inverse(true);
@@ -53,13 +52,13 @@ namespace Battleships
                 }, p => p.OneToMany());
                 e.ManyToOne(p => p.Game, mapper =>
                {
-                   mapper.Column("Id");
+                   mapper.Column("GameId");
                    mapper.NotNullable(true);
                    mapper.Cascade(Cascade.None);
                });
                 e.ManyToOne(p => p.User, mapper =>
                 {
-                    mapper.Column("Id");
+                    mapper.Column("UserId");
                     mapper.NotNullable(true);
                     mapper.Cascade(Cascade.None);
                 });
@@ -69,14 +68,14 @@ namespace Battleships
         {
             _modelMapper.Class<Ship>(e =>
             {
-                e.Id(p => p.Id, p => p.Generator(Generators.GuidComb));
+                e.Id(p => p.ShipId, p => p.Generator(Generators.GuidComb));
                 e.Property(p => p.StartGrid);
                 e.Property(p => p.Orientation);
                 e.Property(p => p.Length);
                 e.Property(p => p.IsSunk);
                 e.ManyToOne(p => p.Player, mapper =>
                {
-                   mapper.Column("Id");
+                   mapper.Column("PlayerId");
                    mapper.NotNullable(true);
                    mapper.Cascade(Cascade.None);
                });
@@ -86,14 +85,15 @@ namespace Battleships
         {
             _modelMapper.Class<User>(e =>
             {
-                e.Id(p => p.Id, p => p.Generator(Generators.GuidComb));
+                e.Id(p => p.UserId, p => p.Generator(Generators.GuidComb));
                 e.Property(p => p.NickName);
-                e.ManyToOne(p => p.Player, mapper =>
+                e.Table("[User]");
+                e.Set(p => p.Player, p =>
                {
-                   mapper.Column("Id");
-                   mapper.NotNullable(true);
-                   mapper.Cascade(Cascade.None);
-               });
+                   p.Inverse(true);
+                   p.Cascade(Cascade.All);
+                   p.Key(k => k.Column(col => col.Name("UserId")));
+               }, p => p.OneToMany());
             });
         }
     }

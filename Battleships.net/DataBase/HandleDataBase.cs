@@ -8,7 +8,7 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
 using System.Reflection;
 using NHibernate.Dialect;
-
+using System.Data.SqlClient;
 
 namespace Battleships.net.DataBase
 {
@@ -17,13 +17,42 @@ namespace Battleships.net.DataBase
     /// </summary>
     public class HandleDataBase
     {
+        public static string ConnectionString { get; set; }
+        public HandleDataBase()
+        {
+            ConnectionString = @"Server = (localdb)\mssqllocaldb; Database = Battleships;";//
+        }
+        public HandleDataBase(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
         public void BuildDataBase()
         {
-            Configuration config = new Configuration();
+            using (SqlConnection con = new SqlConnection(@"Server = (localdb)\mssqllocaldb;"))
+            {
+                con.Open();
+
+                using (SqlCommand command = new SqlCommand("if db_id('Battleships') is null create database Battleships", con))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+                Configuration config = new Configuration();
+            
+            var schema = new SchemaExport(Configure());
+            schema.SetOutputFile("outputFile.sql");
+            schema.Create(true, false);
+            //schema.Drop(true, true);
+            schema.Create(true, true);
+
+        }
+
+        private static Configuration Configure()
+        {
             Configuration cfg = new Configuration()
                            .DataBaseIntegration(db =>
                            {
-                               db.ConnectionString = @"Server = (localdb)\mssqllocaldb; Database = Battleships; Trusted_Connection = True;";
+                               db.ConnectionString = ConnectionString+ " Trusted_Connection = True;";
                                db.Dialect<MsSql2008Dialect>();
                            });
 
@@ -33,9 +62,8 @@ namespace Battleships.net.DataBase
 
             HbmMapping mapping = new AutoMapper().Map();
             cfg.AddMapping(mapping);
-            var schema = new SchemaExport(cfg);
-            schema.SetOutputFile("outputFile.dll");
 
+            return cfg;
         }
     }
 }

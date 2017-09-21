@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataBaseManager
+namespace Battleships
 {
     class Player
     {
-        public virtual Guid Id { get; set; }
+        public virtual Guid PlayerId { get; set; }
         public virtual System.Guid UserId { get; set; }
         public virtual User User { get; set; }
         public virtual Game Game { get; set; }

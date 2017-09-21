@@ -186,7 +186,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataBase\Game.cs" />
-    <Compile Include="DataBase\mappings.cs" />
+    <Compile Include="DataBase\HandleDataBase.cs" />
+    <Compile Include="DataBase\AutoMapper.cs" />
     <Compile Include="DataBase\Player.cs" />
     <Compile Include="DataBase\Ship.cs" />
     <Compile Include="DataBase\User.cs" />

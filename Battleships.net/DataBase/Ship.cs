@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataBaseManager
+namespace Battleships
 {
     class Ship
     {
-        public virtual Guid Id { get; set; }
+        public virtual Guid ShipId { get; set; }
         public virtual System.String StartGrid { get; set; }
         public virtual System.String Orientation { get; set; }
         public virtual System.Int32 Length { get; set; }

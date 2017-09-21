@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Battleships.net.DataBase;
 
 namespace DatabaseTester
 {
@@ -7,8 +8,10 @@ namespace DatabaseTester
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestCreateDataBase()
         {
+            HandleDataBase hdb = new HandleDataBase();
+            hdb.BuildDataBase();
         }
     }
 }
