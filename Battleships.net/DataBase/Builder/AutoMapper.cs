@@ -34,10 +34,13 @@ namespace Battleships.net.DataBase.Builder
                 e.Property(p => p.StartedAt);
                 e.Set(p => p.Players, p =>
                 {
-                    p.Inverse(true);
                     p.Cascade(Cascade.All);
+                    p.Inverse(true);
                     p.Key(k => k.Column(col => col.Name("GameId")));
-                }, p => p.OneToMany());
+                } , p => p.OneToMany());
+                
+                
+                
             });
         }
         private void MapPlayer()
@@ -45,6 +48,7 @@ namespace Battleships.net.DataBase.Builder
             _modelMapper.Class<Player>(e =>
             {
                 e.Id(p => p.PlayerId, p => p.Generator(Generators.GuidComb));
+                e.Property(p => p.IsHost);
                 e.Set(p => p.Ship, p =>
                 {
                     p.Inverse(true);
@@ -57,6 +61,7 @@ namespace Battleships.net.DataBase.Builder
                    mapper.NotNullable(true);
                    mapper.Cascade(Cascade.None);
                });
+               
                 e.ManyToOne(p => p.User, mapper =>
                 {
                     mapper.Column("UserId");

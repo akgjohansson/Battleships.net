@@ -27,5 +27,14 @@ namespace DatabaseTester
             DbService.CloseSession(session);
             //setup.Cleanup();
         }
+
+        [TestMethod]
+        public void TestCreateGame()
+        {
+            var session = DbService.OpenSession();
+            Setup setup = new Setup(session);
+            setup.CreateGame("Anton", "Pelle");
+            DbService.CloseSession(session);
+        }
     }
 }

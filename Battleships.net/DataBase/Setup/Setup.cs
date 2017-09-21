@@ -6,6 +6,7 @@ using NHibernate.Cfg;
 using NHibernate;
 using Battleships.net.DataBase.Builder;
 using NHibernate.Linq;
+using NHibernate.Criterion;
 
 namespace Battleships.net.DataBase.Setup
 {
@@ -36,27 +37,43 @@ namespace Battleships.net.DataBase.Setup
 
         public Game CreateGame(string name1 , string name2)
         {
+            Game game = CreateGameMethod();
+            Player player1 = AddPlayer(AddAndOrLoadUser(name1) , true , game);
+            Player player2 = AddPlayer(AddAndOrLoadUser(name2) , false , game);
+            return game;
+        }
 
-            Player player1 = AddPlayer(AddAndOrLoadUser(name1));
-            Player player2 = AddPlayer(AddAndOrLoadUser(name2));
+        public Game CreateGame(string name1)
+        {
+            Game game = CreateGameMethod();
+            Player player1 = AddPlayer(AddAndOrLoadUser(name1), true , game);
+            return game;
+        }
+
+        private Game CreateGameMethod()
+        {
             Game game = new Game
             {
-                Players = new List<Player>
-                {
-                    player1 , player2
-                },
                 StartedAt = DateTime.Now
             };
             Session.Save(game);
             return game;
         }
 
-        public Player AddPlayer(User user)
+        public void Let2ndPlayerJoin(Game game, string name2)
+        {
+            Player player2 = AddPlayer(AddAndOrLoadUser(name2), false, game);
+        }
+
+        public Player AddPlayer(User user , bool isHost , Game game)
         {
             Player player = new Player
             {
                 User = user,
+                IsHost = isHost,
+                Game = game
             };
+            Session.Save(player);
             return player;
         }
 
@@ -73,6 +90,7 @@ namespace Battleships.net.DataBase.Setup
                         IsHit = false
                     };
                     Session.Save(grid);
+                    Session.Flush();
                 }
             }
             
@@ -121,7 +139,17 @@ namespace Battleships.net.DataBase.Setup
 
         private bool DoesPlayerExist(string name, bool caseSensitive = false)
         {
-            throw new NotImplementedException();
+            var query = Session.Query<User>().Where(u => u.NickName.Equals(name)).DefaultIfEmpty();
+            var hej = query.Fetch(x => x.NickName);
+            var haj = query.ToList();
+            if (query == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
 
