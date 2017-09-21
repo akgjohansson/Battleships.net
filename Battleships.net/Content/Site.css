@@ -59,5 +59,11 @@ h1 {
     margin-top:40px;
 }
 
-
+.titleheader {
+    font-size: 34px;
+    margin-left: 120px;
+    margin-top: 14px;
+    font-family:'Bauhaus 93';
+    font-weight:900;
+}
 

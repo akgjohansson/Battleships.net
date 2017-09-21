@@ -4,11 +4,9 @@
     ViewBag.PlayerId = Request["playerid"];
 }
 
-<h1>@ViewBag.PlayerId, host a game:</h1>
+<h1>@ViewBag.PlayerId, create the battlefield and host a game:</h1>
 
 <form method="POST" action="/Home/NewGame">
-    <p>Create the battlefield:</p>
-    <br />
     <label for="sizeX">Horizontal:</label>
     <br />
     <input name="sizeX" id="sizeX" type="number" min="4" max="9" value="8"/>
