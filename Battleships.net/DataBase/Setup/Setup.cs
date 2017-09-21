@@ -104,7 +104,7 @@ namespace Battleships.net.DataBase.Setup
 
         public void Cleanup()
         {
-
+            
         }
 
         private bool DoesPlayerExist(string name, bool caseSensitive = false)
