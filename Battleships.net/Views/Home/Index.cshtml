@@ -1,24 +1,49 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
-</div>
+﻿<h1>Battleships</h1>
+
+<p id="login">
+    <label for="username">Username: </label>
+    <input type="text" name="username" id="username" />
+    <button type="button" id="loginbutton">Log In</button>
+</p>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+    var playerid = "";
+    $("document").ready(function () {
+        $("#loginbutton").click(function () {
+            var uname = $("#username").val(); 
+            if(uname.length>1)
+            $.ajax({
+                url: '/api/login',
+                method: 'Get',
+                data: {
+                    username: uname
+                }
+            })
+                .done(function (newPlayer) {
+                    $("#login").text("Welcome, " + newPlayer.Name + "!");
+                    playerid = newPlayer.Name;
+                    $("#buttons").attr("style","visibility:visible");
+                })
+                .fail(function (xhr, status, error) {
+                    console.log("Error", xhr, status, error)
+                    $("#error").html(`Error! ${xhr.responseJSON.Message}`);
+                })
+        })
+    })
+</script>
+
+<p id="buttons" style="visibility:hidden">
+    <button id="hostgame">Host a new game</button>
+    <button id='pickgame'>Pick an existing game</button>
+</p>
+
+<script>
+    $("#hostgame").click(function () {
+        window.location.href = "/Home/Host?playerid=" + playerid;
+    })
+    $("#pickgame").click(function () {
+        window.location.href = "/Home/PickGame?playerid="+playerid;
+    })
+</script>
+

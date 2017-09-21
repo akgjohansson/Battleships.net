@@ -10,9 +10,18 @@ namespace Battleships.net.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
             return View();
         }
+
+        public ActionResult Host()
+        {
+            return View();
+        }
+
+        public ActionResult PickGame()
+        {
+            return View();
+        }
+
     }
 }

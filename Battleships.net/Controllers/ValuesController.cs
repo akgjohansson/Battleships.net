@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battleships.net.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,6 +8,7 @@ using System.Web.Http;
 
 namespace Battleships.net.Controllers
 {
+    [RoutePrefix("api")]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -34,6 +36,15 @@ namespace Battleships.net.Controllers
         // DELETE api/values/5
         public void Delete(int id)
         {
+        }
+
+        [HttpGet]
+        [Route("login") ]
+        public IHttpActionResult login(string username)
+        {
+            // Log-In i databas
+            var newPlayer = new Player() { Name = username };
+            return Ok(newPlayer);
         }
     }
 }
