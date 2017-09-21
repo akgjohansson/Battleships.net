@@ -23,6 +23,7 @@ namespace Battleships.net.DataBase.Builder
             MapPlayer();
             MapUser();
             MapShip();
+            MapGrid();
             return _modelMapper.CompileMappingForAllExplicitlyAddedEntities();
         }
         private void MapGame()
@@ -79,6 +80,13 @@ namespace Battleships.net.DataBase.Builder
                    mapper.NotNullable(true);
                    mapper.Cascade(Cascade.None);
                });
+                e.Set(p => p.Grid, p =>
+                {
+                    p.Inverse(true);
+                    p.Cascade(Cascade.All);
+                    p.Key(k => k.Column(col => col.Name("ShipId")));
+                }, p => p.OneToMany());
+
             });
         }
         private void MapUser()
@@ -94,6 +102,21 @@ namespace Battleships.net.DataBase.Builder
                    p.Cascade(Cascade.All);
                    p.Key(k => k.Column(col => col.Name("UserId")));
                }, p => p.OneToMany());
+            });
+        }
+        private void MapGrid()
+        {
+            _modelMapper.Class<Grid>(e =>
+            {
+                e.Id(p => p.GridId, p => p.Generator(Generators.GuidComb));
+                e.Property(p => p.Coordinate);
+                e.Property(p => p.IsHit);
+                e.ManyToOne(p => p.Ship, mapper =>
+                {
+                    mapper.Column("ShipId");
+                    mapper.NotNullable(true);
+                    mapper.Cascade(Cascade.None);
+                });
             });
         }
     }

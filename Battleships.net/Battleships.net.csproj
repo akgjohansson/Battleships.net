@@ -183,14 +183,17 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\BattleshipsApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="DataBase\Game.cs" />
+    <Compile Include="DataBase\Builder\Builder.cs" />
+    <Compile Include="DataBase\Builder\Game.cs" />
+    <Compile Include="DataBase\Builder\Grid.cs" />
     <Compile Include="DataBase\HandleDataBase.cs" />
-    <Compile Include="DataBase\AutoMapper.cs" />
-    <Compile Include="DataBase\Player.cs" />
-    <Compile Include="DataBase\Ship.cs" />
-    <Compile Include="DataBase\User.cs" />
+    <Compile Include="DataBase\Builder\AutoMapper.cs" />
+    <Compile Include="DataBase\Builder\Player.cs" />
+    <Compile Include="DataBase\Builder\Ship.cs" />
+    <Compile Include="DataBase\Builder\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

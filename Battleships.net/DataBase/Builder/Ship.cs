@@ -14,5 +14,6 @@ namespace Battleships.net.DataBase.Builder
         public virtual System.Int32 Length { get; set; }
         public virtual System.Boolean IsSunk { get; set; }
         public virtual Player Player { get; set; }
+        public virtual ICollection<Grid> Grid { get; set; }
     }
 }
