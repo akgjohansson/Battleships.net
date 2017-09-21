@@ -8,7 +8,7 @@ using NHibernate.Mapping.ByCode;
 
 
 
-namespace Battleships.net.DataBase
+namespace Battleships.net.DataBase.Builder
 {
     public class AutoMapper
     {
