@@ -1,6 +1,8 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin-left: 120px;
+    background-color:paleturquoise
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -15,3 +17,47 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.submitbutton,
+button {
+    background-color: darkblue;
+    color: aliceblue;
+    border-color: darkcyan;
+}
+
+table {
+    background-color: darkslategrey;
+    color: mediumspringgreen;
+    font-size: 16px;
+    border: 1px dotted mediumspringgreen;
+}
+
+td {
+    padding: 10px;
+    border: 3px solid white;
+}
+
+.tablerow:hover {
+    background-color: mediumspringgreen;
+    color: orangered;
+}
+
+input {
+    background-color: lightblue;
+}
+
+.navbar {
+    font-size: larger;
+    background-image: url("https://wallpapercave.com/wp/ZO7nsZQ.jpg");
+}
+
+footer {
+    background-color:white;
+}
+
+h1 {
+    margin-top:40px;
+}
+
+
+
