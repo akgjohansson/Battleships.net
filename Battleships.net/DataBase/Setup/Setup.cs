@@ -16,7 +16,7 @@ namespace Battleships.net.DataBase.Setup
         {
             
         }
-        public User AddAndOrLoadUser(string name)
+        private User AddAndOrLoadUser(string name)
         {
             User user;
             if (!DoesPlayerExist(name))
@@ -34,8 +34,11 @@ namespace Battleships.net.DataBase.Setup
             return user;
         }
 
-        public Game CreateGame(Player player1, Player player2)
+        public Game CreateGame(string name1 , string name2)
         {
+
+            Player player1 = AddPlayer(AddAndOrLoadUser(name1));
+            Player player2 = AddPlayer(AddAndOrLoadUser(name2));
             Game game = new Game
             {
                 Players = new List<Player>
@@ -48,9 +51,8 @@ namespace Battleships.net.DataBase.Setup
             return game;
         }
 
-        public Player AddPlayer(string name)
+        public Player AddPlayer(User user)
         {
-            User user = AddAndOrLoadUser(name);
             Player player = new Player
             {
                 User = user,
