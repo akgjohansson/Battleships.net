@@ -7,7 +7,7 @@ using Battleships.net.DataBase.Builder;
 using System;
 using System.Reflection;
 
-namespace NHibernateStart.Services
+namespace Battleships.net.Services
 {
     public class DbService
     {

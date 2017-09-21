@@ -114,7 +114,7 @@ namespace Battleships.net.DataBase.Builder
                 e.ManyToOne(p => p.Ship, mapper =>
                 {
                     mapper.Column("ShipId");
-                    mapper.NotNullable(true);
+                    mapper.NotNullable(false);
                     mapper.Cascade(Cascade.None);
                 });
             });

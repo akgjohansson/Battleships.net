@@ -113,7 +113,10 @@ namespace Battleships.net.DataBase.Setup
 
         public void Cleanup()
         {
-            //Session.Query<Grid>().De
+            Session.Delete("from Grid");
+            Session.Delete("from Ship");
+            Session.Delete("from Player");
+            Session.Delete("from Game");
         }
 
         private bool DoesPlayerExist(string name, bool caseSensitive = false)
