@@ -9,7 +9,7 @@ namespace Battleships.net.DataBase.Builder
     public class Game
     {
         public virtual Guid GameId { get; set; }
-        public virtual System.DateTime StartedAt { get; set; }
+        public virtual DateTime StartedAt { get; set; }
         public virtual ICollection<Player> Players { get; set; }
     }
 }

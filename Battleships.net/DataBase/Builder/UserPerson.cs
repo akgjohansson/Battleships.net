@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Battleships.net.DataBase.Builder
 {
-    public class User
+    public class UserPerson
     {
-        public virtual Guid UserId { get; set; }
+        public virtual Guid UserPersonId { get; set; }
         public virtual System.String NickName { get; set; }
         public virtual ICollection<Player> Player { get; set; }
     }

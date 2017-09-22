@@ -16,7 +16,7 @@ namespace Battleships.net.Services
             Configuration cfg = new Configuration()
                            .DataBaseIntegration(db =>
                            {
-                               db.ConnectionString = @"Server = (localdb)\mssqllocaldb; Database = CustomerRegister; Trusted_Connection = True;";
+                               db.ConnectionString = @"Server = (localdb)\mssqllocaldb; Database = Battleships; Trusted_Connection = True;";
                                db.Dialect<MsSql2008Dialect>();
                            });
 

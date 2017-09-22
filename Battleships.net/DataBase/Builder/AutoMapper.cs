@@ -31,16 +31,13 @@ namespace Battleships.net.DataBase.Builder
             _modelMapper.Class<Game>(e =>
             {
                 e.Id(p => p.GameId, p => p.Generator(Generators.GuidComb));
-                e.Property(p => p.StartedAt);
+                e.Property(p => p.StartedAt, p => p.NotNullable(false));
                 e.Set(p => p.Players, p =>
                 {
                     p.Cascade(Cascade.All);
                     p.Inverse(true);
                     p.Key(k => k.Column(col => col.Name("GameId")));
                 } , p => p.OneToMany());
-                
-                
-                
             });
         }
         private void MapPlayer()
@@ -62,9 +59,9 @@ namespace Battleships.net.DataBase.Builder
                    mapper.Cascade(Cascade.None);
                });
                
-                e.ManyToOne(p => p.User, mapper =>
+                e.ManyToOne(p => p.UserPerson, mapper =>
                 {
-                    mapper.Column("UserId");
+                    mapper.Column("UserPersonId");
                     mapper.NotNullable(true);
                     mapper.Cascade(Cascade.None);
                 });
@@ -96,16 +93,20 @@ namespace Battleships.net.DataBase.Builder
         }
         private void MapUser()
         {
-            _modelMapper.Class<User>(e =>
+            _modelMapper.Class<UserPerson>(e =>
             {
-                e.Id(p => p.UserId, p => p.Generator(Generators.GuidComb));
+              
+                e.Id(p => p.UserPersonId, p =>
+                {
+                    p.Generator(Generators.GuidComb);
+                   
+                });
                 e.Property(p => p.NickName);
-                e.Table("[User]");
                 e.Set(p => p.Player, p =>
                {
                    p.Inverse(true);
                    p.Cascade(Cascade.All);
-                   p.Key(k => k.Column(col => col.Name("UserId")));
+                   p.Key(k => k.Column(col => col.Name("UserPersonId")));
                }, p => p.OneToMany());
             });
         }

@@ -17,12 +17,14 @@ namespace Battleships.net.DataBase.Setup
         {
             Session = session;
         }
-        private User AddAndOrLoadUser(string name)
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public UserPerson AddAndOrLoadUser(string name)
+
         {
-            User user;
+            UserPerson user;
             if (!DoesPlayerExist(name))
             {
-                user = new User
+                user = new UserPerson
                 {
                     NickName = name
                 };
@@ -30,7 +32,7 @@ namespace Battleships.net.DataBase.Setup
             }
             else
             {
-                user = Session.Query<User>().Where(u => u.NickName == name).First(); 
+                user = Session.Query<UserPerson>().Where(u => u.NickName == name).First(); 
             }
             return user;
         }
@@ -65,11 +67,11 @@ namespace Battleships.net.DataBase.Setup
             Player player2 = AddPlayer(AddAndOrLoadUser(name2), false, game);
         }
 
-        public Player AddPlayer(User user , bool isHost , Game game)
+        public Player AddPlayer(UserPerson user , bool isHost , Game game)
         {
             Player player = new Player
             {
-                User = user,
+                UserPerson = user,
                 IsHost = isHost,
                 Game = game
             };
@@ -139,10 +141,9 @@ namespace Battleships.net.DataBase.Setup
 
         private bool DoesPlayerExist(string name, bool caseSensitive = false)
         {
-            var query = Session.Query<User>().Where(u => u.NickName.Equals(name)).DefaultIfEmpty();
-            var hej = query.Fetch(x => x.NickName);
-            var haj = query.ToList();
-            if (query == null)
+            var query = Session.Query<UserPerson>().Where(u => u.NickName.Equals(name)).ToList();
+            
+            if (query.Count == 0)
             {
                 return false;
             }
