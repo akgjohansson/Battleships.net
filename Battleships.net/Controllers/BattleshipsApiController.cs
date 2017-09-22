@@ -67,6 +67,13 @@ namespace Battleships.net.Controllers
             List<Game> listOfGames = gameBoard.GetActiveGames();
             return Ok(gameBoard);
         }
+
+        [Route("endGame"),HttpGet]
+        public IHttpActionResult EndGame(GameBoard gameBoard)
+        {
+            gameBoard.DeleteGame();
+            return Ok(gameBoard);
+        }
         
     }
 }

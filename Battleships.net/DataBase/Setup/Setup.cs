@@ -106,6 +106,7 @@ namespace Battleships.net.DataBase.Setup
             return player;
         }
 
+
         public void SetupGrid(Builder.Player player1 , Builder.Player player2 ,int rows, int columns)
         {
             SetThisGridUp(rows, columns , player1);
@@ -155,6 +156,22 @@ namespace Battleships.net.DataBase.Setup
             Session.Delete("from Ship");
             Session.Delete("from Player");
             Session.Delete("from Game");
+        }
+
+        public void CleanUp(Game game)
+        {
+            List<Builder.Player> players = Session.Query<Builder.Player>().Where(g => g.Game == game).ToList();
+            foreach (Builder.Player player in players)
+            {
+                List<Grid> grid = Session.Query<Grid>().Where(p => p.Player == player).ToList();
+                grid.ForEach(x => Session.Delete(x));
+                List<Ship> ships = Session.Query<Ship>().Where(p => p.Player == player).ToList();
+                ships.ForEach(x => Session.Delete(x));
+                Session.Delete(player);
+            }
+            Session.Delete(game);
+            Session.Flush();
+
         }
 
         private bool DoesPlayerExist(string name, bool caseSensitive = false)

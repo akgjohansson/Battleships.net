@@ -84,6 +84,13 @@ namespace Battleships.net.Models
             
         }
 
+        public void DeleteGame()
+        {
+            Setup setup = new Setup();
+            setup.CleanUp(Game);
+            setup.CloseSession();
+        }
+
         private string[] GetShipCoords(Ship ship)
         {
             string[] coordinates = new string[ship.Length];
