@@ -73,5 +73,9 @@ namespace Battleships.net.DataBase.DobbyDBHelper
             return message;
         }
 
+        internal List<Game> GetActiveGames()
+        {
+            return Session.Query<Game>().ToList();
+        }
     }
 }

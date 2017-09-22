@@ -1,4 +1,5 @@
-﻿using Battleships.net.DataBase.DobbyDBHelper;
+﻿using Battleships.net.DataBase.Builder;
+using Battleships.net.DataBase.DobbyDBHelper;
 using Battleships.net.Models;
 using System;
 using System.Collections.Generic;
@@ -59,12 +60,13 @@ namespace Battleships.net.Controllers
             else
                 return Ok("Miss!");
         }
-        /*
+        
         [Route("joinGame"),HttpGet]
         public IHttpActionResult ShowActiveGames(GameBoard gameBoard)
         {
-            gameBoard.GetActiveGames();
+            List<Game> listOfGames = gameBoard.GetActiveGames();
+            return Ok(gameBoard);
         }
-        */
+        
     }
 }

@@ -155,5 +155,13 @@ namespace Battleships.net.Models
             dobby.UpdateGridToDB(Grid.Values.ToList());
             dobby.FreeDobby();
         }
+
+        public List<Game> GetActiveGames()
+        {
+            DobbyDBHelper dobby = new DobbyDBHelper();
+            List<Game> gameList = dobby.GetActiveGames();
+            dobby.FreeDobby();
+            return gameList;
+        }
     }
 }
