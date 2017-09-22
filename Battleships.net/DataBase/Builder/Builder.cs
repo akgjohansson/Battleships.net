@@ -56,5 +56,7 @@ namespace Battleships.net.DataBase.Builder
 
             return cfg;
         }
+
+        
     }
 }
