@@ -25,6 +25,13 @@ namespace Battleships.net.Models
             }
         }
 
+        /// <summary>
+        /// Tries to place ship. If successful, it returns true. If not, no action have been done on the database
+        /// </summary>
+        /// <param name="startGrid"></param>
+        /// <param name="orientation"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public bool PlaceShip(string startCoordinate , string orientation , int length)
         {
             Ship ship = new Ship
@@ -92,6 +99,8 @@ namespace Battleships.net.Models
         {
             foreach (string coordinate in coordinates)
             {
+                if (!Grid.Keys.Contains(coordinate))
+                    return false;
                 if (Grid[coordinate].Ship != null)
                     return false;
             }

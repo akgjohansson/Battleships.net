@@ -108,17 +108,11 @@ namespace Battleships.net.DataBase.Setup
             
         }
 
-        private bool CanShipFitHere(Ship ship)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
-        /// Tries to place ship. If successful, it returns true. If not, no action have been done on the database
+        /// NB! No check if it can fit here is available here, it must be done previously!
         /// </summary>
-        /// <param name="startGrid"></param>
-        /// <param name="orientation"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
+        /// <param name="ship"></param>
+        /// <param name="coordinates"></param>
         public void PlaceShipHere(Ship ship , string[] coordinates)
         {
             Session.Save(ship);
