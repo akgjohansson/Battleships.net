@@ -23,5 +23,10 @@ namespace Battleships.net.Controllers
             return View();
         }
 
+        public ActionResult NewGame()
+        {
+            return View();
+        }
+
     }
 }
