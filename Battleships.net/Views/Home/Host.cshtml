@@ -7,30 +7,30 @@
 <h1>@ViewBag.PlayerId, create the battlefield and host a game:</h1>
 
 <form method="POST" action="/Home/NewGame">
-    <label for="sizeX">Horizontal:</label>
+    <label for="rows">Rows:</label>
     <br />
-    <input name="sizeX" id="sizeX" type="number" min="4" max="9" value="8"/>
+    <input name="rows" id="rows" type="number" min="4" max="9" value="5"/>
     <br />
-    <label for="sizeY">Vertical:</label>
+    <label for="columns">Columns:</label>
     <br />
-    <input name="sizeY" id="sizeY" type="number" min="4" max="9" value="8"/>
+    <input name="columns" id="columns" type="number" min="4" max="9" value="5"/>
     <br />
     <br />
-    <label for="ships">Number of #2 ships:</label>
+    <label for="ships2">Number of #2 ships:</label>
     <br />
-    <input name="ships" id="ships2" type="number" min="0" max="4" value="1"/>
+    <input name="ships2" id="ships2" type="number" min="0" max="4" value="1"/>
     <br />
-    <label for="ships">Number of #3 ships:</label>
+    <label for="ships3">Number of #3 ships:</label>
     <br />
-    <input name="ships" id="ships3" type="number" min="0" max="3" value="2" />
+    <input name="ships3" id="ships3" type="number" min="0" max="3" value="2" />
     <br />
-    <label for="ships">Number of #4 ships:</label>
+    <label for="ships4">Number of #4 ships:</label>
     <br />
-    <input name="ships" id="ships4" type="number" min="0" max="2" value="1" />
+    <input name="ships4" id="ships4" type="number" min="0" max="2" value="1" />
     <br />
-    <label for="ships">Number of #5 ships:</label>
+    <label for="ships5">Number of #5 ships:</label>
     <br />
-    <input name="ships" id="ships5" type="number" min="0" max="2" value="1" />
+    <input name="ships5" id="ships5" type="number" min="0" max="2" value="0" />
     <br />
     <br />
     <input type="submit" class="submitbutton" value="Host this game" />
