@@ -27,9 +27,9 @@ namespace DatabaseTester
         {
             var session = DbService.OpenSession();
             Setup setup = new Setup(session);
-            var game = setup.CreateGame("Anton", "Pelle", 8 , 8);
+            //var game = setup.CreateGame("Anton", "Pelle", 8 , 8);
             session.Flush();
-            setup.CleanUp(game);
+            //setup.CleanUp(game);
 
             DbService.CloseSession(session);
         }

@@ -49,23 +49,25 @@ namespace Battleships.net.DataBase.Setup
             DbService.CloseSession(Session);
         }
 
-        public Game CreateGame(string name1 , string name2 , int rows , int columns)
+        public Game CreateGame(string name1 , string name2 , int rows , int columns , GameBoard gameBoard)
         {
             this.CleanUp();
             Game game = CreateGameMethod( rows ,  columns);
             Builder.Player player1 = AddPlayer(AddAndOrLoadUser(name1) , true , game);
             Builder.Player player2 = AddPlayer(AddAndOrLoadUser(name2) , false , game);
+            gameBoard.ActivePlayer = player1;
             SetupGrid(player1, player2, rows, columns);
             return game;
         }
 
         
 
-        public Game CreateGame(string name1 , int rows , int columns)
+        public Game CreateGame(string name1 , int rows , int columns , GameBoard gameBoard)
         {
             this.CleanUp();
             Game game = CreateGameMethod( rows ,  columns);
             Builder.Player player1 = AddPlayer(AddAndOrLoadUser(name1), true , game);
+            gameBoard.ActivePlayer = player1;
             game.Players.Add(player1);
             
             return game;

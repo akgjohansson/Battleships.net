@@ -53,7 +53,10 @@ namespace Battleships.net.Controllers
             Message message = gameBoard.DropBomb(coordinate);
             if (message == null)
                 return BadRequest("You have already fired here!");
-            else if (message.GameOver)
+
+            gameBoard.SwitchActivePlayer();
+
+            if (message.GameOver)
                 return Ok("Game over!");
             else if (message.SunkTheShip)
                 return Ok("You sunk the ship!");

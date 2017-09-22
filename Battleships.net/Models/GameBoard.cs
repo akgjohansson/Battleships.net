@@ -12,6 +12,7 @@ namespace Battleships.net.Models
     {
         public Game Game { get; set; }
         public Dictionary<string,Grid> Grid { get; set; }
+        public Battleships.net.DataBase.Builder.Player ActivePlayer { get; set; }
 
         public void JoinGame(string player2)
         {
@@ -19,12 +20,20 @@ namespace Battleships.net.Models
             setup.Let2ndPlayerJoin(Game, player2);
             setup.CloseSession();
         } 
+        public void SwitchActivePlayer()
+        {
+            DobbyDBHelper dobby = new DobbyDBHelper();
+            this.ActivePlayer = dobby.SwitchPlayer(this.Game , this.ActivePlayer);
 
+            dobby.FreeDobby();
+
+        }
         public static GameBoard StartGame(string player1, string player2 , int rows , int columns)
         {
             GameBoard gameBoard = new GameBoard();
             Setup setup = new Setup();
-            gameBoard.Game = setup.CreateGame(player1, player2 , rows , columns);
+            gameBoard.Game = setup.CreateGame(player1, player2 , rows , columns , gameBoard);
+            
             setup.CloseSession();
             return gameBoard;
         }
@@ -32,7 +41,7 @@ namespace Battleships.net.Models
         {
             GameBoard gameBoard = new GameBoard();
             Setup setup = new Setup();
-            gameBoard.Game = setup.CreateGame(player1, rows, columns);
+            gameBoard.Game = setup.CreateGame(player1, rows, columns , gameBoard);
             return gameBoard;
         }
         public Message DropBomb(string coordinate)
@@ -47,12 +56,16 @@ namespace Battleships.net.Models
                 DobbyDBHelper dobby = new DobbyDBHelper();
                 Message message = dobby.DropBomb(thisGrid);
                 message.SunkenShip = IsShipSunk(thisGrid,dobby);
+                message.GameOver = dobby.IsGameOver(thisGrid.Player);
+
                 dobby.FreeDobby();
 
                 return message;
                 
             }
         }
+
+        
 
         /// <summary>
         /// Tries to place ship. If successful, it returns true. If not, no action have been done on the database

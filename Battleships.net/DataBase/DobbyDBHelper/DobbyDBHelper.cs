@@ -33,6 +33,11 @@ namespace Battleships.net.DataBase.DobbyDBHelper
             return Session.Query<Grid>().Where(g => g.Ship == grid.Ship).ToList();
         }
 
+        internal Builder.Player SwitchPlayer(Game game, Builder.Player activePlayer)
+        {
+            return Session.Query<Builder.Player>().Where(p => p.Game == game && p.PlayerId != activePlayer.PlayerId).Single();
+        }
+
         public List<Grid> GetGrid()
         {
             return Session.Query<Grid>().ToList();
@@ -58,6 +63,17 @@ namespace Battleships.net.DataBase.DobbyDBHelper
             {
                 Session.Save(grid);
             }
+        }
+
+        internal bool IsGameOver(Builder.Player player)
+        {
+            List<Ship> ships = Session.Query<Ship>().Where(p => p.Player == player).ToList();
+            foreach (Ship ship in ships)
+            {
+                if (!ship.IsSunk)
+                    return false;
+            }
+            return true;
         }
 
         public Message DropBomb(Grid grid)
