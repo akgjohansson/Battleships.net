@@ -1,0 +1,159 @@
+﻿
+@{
+    var rows = Int32.Parse(Request["rows"]);
+    var columns = Int32.Parse(Request["columns"]);
+    var ships2 = Int32.Parse(Request["ships2"]);
+    var ships3 = Int32.Parse(Request["ships3"]);
+    var ships4 = Int32.Parse(Request["ships4"]);
+    var ships5 = Int32.Parse(Request["ships5"]);
+}
+<br />
+<br />
+<br />
+<br />
+@for (var i =0;i<rows;i++)
+{
+    for (var j = 0; j < columns; j++)
+    {
+        @:<img id="@i.ToString()@j.ToString()" class="grid" src="https://cdn0.iconfinder.com/data/icons/thin-games-fun/24/thin-1028_sea_waves-512.png"></img>
+    }
+    @:<br />
+}
+
+<p id="shipInput">
+@for (var a = 0; a < @ships2; a++)
+{
+    <br />
+    <select name="length">
+        <option value="2">Length 2</option>
+    </select>
+
+<select name="startGrid">
+    @for (var i = 0; i < rows; i++)
+    {
+        for (var j = 0; j < columns; j++)
+        {
+    <option value="@i@j">Grid @i@j</option>
+        }
+    }
+</select>
+<select name="orientation">
+    <option value="horizontal">Horizontal</option>
+    <option value="vertical">Vertical</option>
+    <option value="diagonal-up">Diagonal (up)</option>
+    <option value="diagonal-down">Diagonal (down)</option>
+</select>
+}
+
+
+@for (var a = 0; a < @ships3; a++)
+{
+    <br />
+    <select name="length">
+        <option value="3">Length 3</option>
+    </select>
+
+    <select name="startGrid">
+        @for (var i = 0; i < rows; i++)
+        {
+            for (var j = 0; j < columns; j++)
+            {
+                <option value="@i@j">Grid @i@j</option>
+            }
+        }
+    </select>
+    <select name="orientation">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+        <option value="diagonal-up">Diagonal (up)</option>
+        <option value="diagonal-down">Diagonal (down)</option>
+    </select>
+}
+
+@for (var a = 0; a < @ships4; a++)
+{
+    <br />
+    <select name="length">
+        <option value="4">Length 4</option>
+    </select>
+
+    <select name="startGrid">
+        @for (var i = 0; i < rows; i++)
+        {
+            for (var j = 0; j < columns; j++)
+            {
+                <option value="@i@j">Grid @i@j</option>
+            }
+        }
+    </select>
+    <select name="orientation">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+        <option value="diagonal-up">Diagonal (up)</option>
+        <option value="diagonal-down">Diagonal (down)</option>
+    </select>
+}
+
+@for (var a = 0; a < @ships5; a++)
+{
+    <br />
+    <select name="length">
+        <option value="5">Length 5</option>
+    </select>
+
+    <select name="startGrid">
+        @for (var i = 0; i < rows; i++)
+        {
+            for (var j = 0; j < columns; j++)
+            {
+                <option value="@i@j">Grid @i@j</option>
+            }
+        }
+    </select>
+    <select name="orientation">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+        <option value="diagonal-up">Diagonal (up)</option>
+        <option value="diagonal-down">Diagonal (down)</option>
+    </select>
+}
+<br />
+<button id="placeShips">Place ships</button>
+</p>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+    var playGame = function () { alert('Playing ... ...'); };
+    var startPage = function () { window.location.href = "/Home/Index"; };
+    $("document").ready(function () {
+
+        $(".grid").hover(function () {
+            $(this).attr("src", "http://www.free-icons-download.net/images/pirate-ship-icon-74164.png");
+        }, function () {
+            $(this).attr("src", "https://cdn0.iconfinder.com/data/icons/thin-games-fun/24/thin-1028_sea_waves-512.png");
+        } );
+
+
+        $("img").click(function () {
+            alert(this.id);
+        })
+
+        
+        $("#placeShips").click(function () {
+            var string = "";
+            var count = $("select").length/3;
+            for (var i = 0; i < count; i++) {
+                string += "Ship length: " +$("select").eq(i * 3).val() + " | ";
+                string += "Grid coordinates: " +$("select").eq(i * 3 + 1).val() + " | ";
+                string += "Orientation: " +$("select").eq(i * 3 + 2).val() + "\r\n";
+            }
+            
+            alert(string);
+            $("#shipInput").html("<button onclick='playGame()'>Play the game</button >");
+            
+        })
+
+    })
+</script>
+<!-- https://cdn4.iconfinder.com/data/icons/summer-and-beach-vol-1/48/24-512.png 
+    http://www.publicdomainpictures.net/pictures/30000/nahled/ocean-waves.jpg -->
