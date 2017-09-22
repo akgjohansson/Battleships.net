@@ -13,6 +13,14 @@ namespace Battleships.net.Models
         public Game Game { get; set; }
         public Dictionary<string,Grid> Grid { get; set; }
 
+        public static GameBoard StartGame(string player1, string player2 , int rows , int columns)
+        {
+            GameBoard gameBoard = new GameBoard();
+            Setup setup = new Setup();
+            gameBoard.Game = setup.CreateGame(player1, player2 , rows , columns);
+            return gameBoard;
+        }
+
         public Message DropBomb(string coordinate)
         {
             if (Grid[coordinate.ToUpper()].IsHit)

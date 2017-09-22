@@ -51,7 +51,7 @@ namespace Battleships.net.DataBase.Setup
 
         public Game CreateGame(string name1 , string name2 , int rows , int columns)
         {
-            this.Cleanup();
+            this.CleanUp();
             Game game = CreateGameMethod( rows ,  columns);
             Builder.Player player1 = AddPlayer(AddAndOrLoadUser(name1) , true , game);
             Builder.Player player2 = AddPlayer(AddAndOrLoadUser(name2) , false , game);
@@ -63,7 +63,7 @@ namespace Battleships.net.DataBase.Setup
 
         public Game CreateGame(string name1 , int rows , int columns)
         {
-            this.Cleanup();
+            this.CleanUp();
             Game game = CreateGameMethod( rows ,  columns);
             Builder.Player player1 = AddPlayer(AddAndOrLoadUser(name1), true , game);
             game.Players.Add(player1);
@@ -149,7 +149,7 @@ namespace Battleships.net.DataBase.Setup
 
 
 
-        public void Cleanup()
+        public void CleanUp()
         {
             Session.Delete("from Grid");
             Session.Delete("from Ship");

@@ -47,7 +47,7 @@ namespace DatabaseTester
         {
             var session = DbService.OpenSession();
             Setup setup = new Setup(session);
-            setup.Cleanup();
+            setup.CleanUp();
             DbService.CloseSession(session);
         }
     }

@@ -37,6 +37,17 @@ namespace Battleships.net.DataBase.DobbyDBHelper
         {
             return Session.Query<Grid>().ToList();
         }
+        public Dictionary<string, Grid> GetGridDictionary()
+        {
+            List<Grid> grid = GetGrid();
+            Dictionary<string, Grid> gridDict = new Dictionary<string, Grid>();
+            foreach (Grid item in grid)
+            {
+                gridDict.Add(item.Coordinate, item);
+            }
+            return gridDict;
+        }
+
         public Grid GetGrid(string coordinate , Builder.Player player)
         {
             return Session.Query<Grid>().Where(c => (c.Coordinate.ToLower() == coordinate.ToLower()) && (c.Player == player)).Single();

@@ -1,4 +1,5 @@
-﻿using Battleships.net.Models;
+﻿using Battleships.net.DataBase.DobbyDBHelper;
+using Battleships.net.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,16 @@ namespace Battleships.net.Controllers
     [RoutePrefix("bsapi")]
     public class BattleshipsApiController : ApiController
     {
+        [Route("startGame"),HttpGet]
+        public IHttpActionResult InitiateGame(string player1 , string player2 , int rows , int columns)
+        {
+            GameBoard gameBoard = GameBoard.StartGame(player1 , player2 , rows , columns);
+            DobbyDBHelper dobby = new DobbyDBHelper();
+            gameBoard.Grid = dobby.GetGridDictionary();
+            dobby.FreeDobby();
+            return Ok(gameBoard);
+        }
+
         [Route("placeShip"),HttpGet]
         public IHttpActionResult PlaceShip(GameBoard gameBoard , string startCoord , string orientation , int length)
         {
@@ -20,6 +31,7 @@ namespace Battleships.net.Controllers
                 return Ok(coordinates);
         }
 
+        [Route("dropBomb"),HttpGet]
         public IHttpActionResult DropBomb(GameBoard gameBoard , string coordinate)
         {
             Message message = gameBoard.DropBomb(coordinate);
