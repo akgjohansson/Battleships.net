@@ -21,6 +21,21 @@ namespace Battleships.net.Controllers
             return Ok(gameBoard);
         }
 
+        public IHttpActionResult InitiateGame(string player1, int rows , int columns)
+        {
+            GameBoard gameBoard = GameBoard.StartGame(player1, rows, columns);
+            DobbyDBHelper dobby = new DobbyDBHelper();
+            gameBoard.Grid = dobby.GetGridDictionary();
+            dobby.FreeDobby();
+            return Ok(gameBoard);
+        }
+
+        public IHttpActionResult JoinGame(GameBoard gameBoard, string player2)
+        {
+            gameBoard.JoinGame(player2);
+            return Ok(gameBoard);
+        }
+
         [Route("placeShip"),HttpGet]
         public IHttpActionResult PlaceShip(GameBoard gameBoard , string startCoord , string orientation , int length)
         {
@@ -44,5 +59,12 @@ namespace Battleships.net.Controllers
             else
                 return Ok("Miss!");
         }
+        /*
+        [Route("joinGame"),HttpGet]
+        public IHttpActionResult ShowActiveGames(GameBoard gameBoard)
+        {
+            gameBoard.GetActiveGames();
+        }
+        */
     }
 }
