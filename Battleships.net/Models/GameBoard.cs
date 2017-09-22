@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Battleships.net.DataBase.Builder;
 using Battleships.net.DataBase.Setup;
+using Battleships.net.DataBase.DobbyDBHelper;
 
 namespace Battleships.net.Models
 {
@@ -12,16 +13,22 @@ namespace Battleships.net.Models
         public Game Game { get; set; }
         public Dictionary<string,Grid> Grid { get; set; }
 
-        public bool DropBomb(string coordinate)
+        public Message DropBomb(string coordinate)
         {
             if (Grid[coordinate.ToUpper()].IsHit)
             {
-                return false;
+                return null;
             }
             else
             {
-                DropThisBomb(coordinate.ToUpper());
-                return true;
+                Grid thisGrid = Grid[coordinate.ToUpper()];
+                DobbyDBHelper dobby = new DobbyDBHelper();
+                Message message = dobby.DropBomb(thisGrid);
+                message.SunkenShip = IsShipSunk(thisGrid,dobby);
+                dobby.FreeDobby();
+
+                return message;
+                
             }
         }
 
@@ -32,7 +39,7 @@ namespace Battleships.net.Models
         /// <param name="orientation"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public bool PlaceShip(string startCoordinate , string orientation , int length)
+        public string[] PlaceShip(string startCoordinate , string orientation , int length)
         {
             Ship ship = new Ship
             {
@@ -46,11 +53,11 @@ namespace Battleships.net.Models
                 Setup setup = new Setup();
                 setup.PlaceShipHere(ship , coordinates);
                 setup.CloseSession();
-                return true;
+                return coordinates;
             }
             else
             {
-                return false;
+                return null;
             }
             
         }
@@ -108,15 +115,23 @@ namespace Battleships.net.Models
 
         }
 
-        private void DropThisBomb(string v)
+        
+        private Ship IsShipSunk(Grid thisGrid , DobbyDBHelper dobby)
         {
-            throw new NotImplementedException();
+            List<Grid> shipGrid = dobby.GetShipCoords(thisGrid);
+            foreach (Grid grid in shipGrid)
+            {
+                if (grid.IsHit == false)
+                    return null;
+            }
+            return shipGrid[0].Ship;
         }
 
         private void UpdateGrid()
         {
-            
-            Setup.UpdateGridToDB(Grid.Values.ToList());
+            DobbyDBHelper dobby = new DobbyDBHelper();
+            dobby.UpdateGridToDB(Grid.Values.ToList());
+            dobby.FreeDobby();
         }
     }
 }

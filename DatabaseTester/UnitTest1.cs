@@ -20,22 +20,14 @@ namespace DatabaseTester
             builder.BuildDataBase();
             
         }
-        [TestMethod]
-        public void TestCreateGrid()
-        {
-            var session = DbService.OpenSession();
-            Setup setup = new Setup(session);
-            setup.SetupGrid(8, 8);
-            DbService.CloseSession(session);
-            //setup.Cleanup();
-        }
+        
 
         [TestMethod]
         public void TestCreateGame()
         {
             var session = DbService.OpenSession();
             Setup setup = new Setup(session);
-            var game = setup.CreateGame("Anton", "Pelle");
+            var game = setup.CreateGame("Anton", "Pelle", 8 , 8);
             log.Debug(session);
             DbService.CloseSession(session);
         }

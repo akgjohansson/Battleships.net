@@ -43,7 +43,7 @@ namespace Battleships.net.Controllers
         public IHttpActionResult Login(string username)
         {
             // Log-In i databas
-            var newPlayer = new Player() { Name = username };
+            var newPlayer = new Models.Player() { Name = username };
             return Ok(newPlayer);
         }
     }

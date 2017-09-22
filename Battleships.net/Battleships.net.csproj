@@ -192,6 +192,7 @@
     <Compile Include="DataBase\Builder\Builder.cs" />
     <Compile Include="DataBase\Builder\Game.cs" />
     <Compile Include="DataBase\Builder\Grid.cs" />
+    <Compile Include="DataBase\DobbyDBHelper\DobbyDBHelper.cs" />
     <Compile Include="DataBase\HandleDataBase.cs" />
     <Compile Include="DataBase\Builder\AutoMapper.cs" />
     <Compile Include="DataBase\Builder\Player.cs" />
@@ -202,6 +203,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GameBoard.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DbService.cs" />

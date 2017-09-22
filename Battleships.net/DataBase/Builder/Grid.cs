@@ -11,5 +11,6 @@ namespace Battleships.net.DataBase.Builder
         public virtual string Coordinate { get; set; }
         public virtual Ship Ship { get; set; }
         public virtual bool IsHit { get; set; }
+        public virtual Player Player { get; set; }
     }
 }

@@ -8,6 +8,8 @@ using Battleships.net.DataBase.Builder;
 using NHibernate.Linq;
 using NHibernate.Criterion;
 using Battleships.net.Services;
+using Battleships.net.Models;
+
 
 namespace Battleships.net.DataBase.Setup
 {
@@ -47,26 +49,35 @@ namespace Battleships.net.DataBase.Setup
             DbService.CloseSession(Session);
         }
 
-        public Game CreateGame(string name1 , string name2)
+        public Game CreateGame(string name1 , string name2 , int rows , int columns)
         {
-            Game game = CreateGameMethod();
-            Player player1 = AddPlayer(AddAndOrLoadUser(name1) , true , game);
-            Player player2 = AddPlayer(AddAndOrLoadUser(name2) , false , game);
+            this.Cleanup();
+            Game game = CreateGameMethod( rows ,  columns);
+            Builder.Player player1 = AddPlayer(AddAndOrLoadUser(name1) , true , game);
+            Builder.Player player2 = AddPlayer(AddAndOrLoadUser(name2) , false , game);
+            SetupGrid(player1, player2, rows, columns);
             return game;
         }
 
-        public Game CreateGame(string name1)
+        
+
+        public Game CreateGame(string name1 , int rows , int columns)
         {
-            Game game = CreateGameMethod();
-            Player player1 = AddPlayer(AddAndOrLoadUser(name1), true , game);
+            this.Cleanup();
+            Game game = CreateGameMethod( rows ,  columns);
+            Builder.Player player1 = AddPlayer(AddAndOrLoadUser(name1), true , game);
+            game.Players.Add(player1);
+            
             return game;
         }
 
-        private Game CreateGameMethod()
+        private Game CreateGameMethod(int rows , int columns)
         {
             Game game = new Game
             {
-                StartedAt = DateTime.Now
+                StartedAt = DateTime.Now,
+                Rows = rows,
+                Columns = columns
             };
             Session.Save(game);
             return game;
@@ -74,12 +85,18 @@ namespace Battleships.net.DataBase.Setup
 
         public void Let2ndPlayerJoin(Game game, string name2)
         {
-            Player player2 = AddPlayer(AddAndOrLoadUser(name2), false, game);
+            DobbyDBHelper.DobbyDBHelper dobby = new DobbyDBHelper.DobbyDBHelper();
+            List<Grid> grid = dobby.GetGrid();
+            dobby.FreeDobby();
+            
+            Builder.Player player2 = AddPlayer(AddAndOrLoadUser(name2), false, game);
+            SetupGrid(game.Players.ToList()[0], player2, game.Rows, game.Columns);
+
         }
 
-        public Player AddPlayer(UserPerson user , bool isHost , Game game)
+        public Builder.Player AddPlayer(UserPerson user , bool isHost , Game game)
         {
-            Player player = new Player
+            Builder.Player player = new Builder.Player
             {
                 UserPerson = user,
                 IsHost = isHost,
@@ -89,9 +106,14 @@ namespace Battleships.net.DataBase.Setup
             return player;
         }
 
-        public void SetupGrid(int rows, int columns)
+        public void SetupGrid(Builder.Player player1 , Builder.Player player2 ,int rows, int columns)
         {
+            SetThisGridUp(rows, columns , player1);
+            SetThisGridUp(rows, columns, player2);
+        }
 
+        private void SetThisGridUp(int rows, int columns , Builder.Player player)
+        {
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
@@ -99,13 +121,13 @@ namespace Battleships.net.DataBase.Setup
                     Grid grid = new Grid
                     {
                         Coordinate = $"{((char)(i + 65))}{j + 1}",
-                        IsHit = false
+                        IsHit = false,
+                        Player = player
                     };
                     Session.Save(grid);
                     Session.Flush();
                 }
             }
-            
         }
 
         /// <summary>
@@ -125,14 +147,7 @@ namespace Battleships.net.DataBase.Setup
             
         }
 
-        public List<Grid> GetGrid()
-        {
-            return Session.Query<Grid>().ToList();
-        }
-        public List<Grid> GetGrid(string coordinate)
-        {
-            return Session.Query<Grid>().Where(c => c.Coordinate.ToLower() == coordinate.ToLower()).ToList();
-        }
+
 
         public void Cleanup()
         {
@@ -154,16 +169,6 @@ namespace Battleships.net.DataBase.Setup
             {
                 return true;
             }
-        }
-
-        public static void UpdateGridToDB(List<Grid> gridList)
-        {
-            var session = DbService.OpenSession();
-            foreach (Grid grid in gridList)
-            {
-                session.Save(grid);
-            }
-            DbService.CloseSession(session);
         }
 
     }

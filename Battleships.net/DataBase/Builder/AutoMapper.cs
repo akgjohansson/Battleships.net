@@ -32,6 +32,8 @@ namespace Battleships.net.DataBase.Builder
             {
                 e.Id(p => p.GameId, p => p.Generator(Generators.GuidComb));
                 e.Property(p => p.StartedAt, p => p.NotNullable(false));
+                e.Property(p => p.Rows);
+                e.Property(p => p.Columns);
                 e.Set(p => p.Players, p =>
                 {
                     p.Cascade(Cascade.All);
@@ -58,7 +60,12 @@ namespace Battleships.net.DataBase.Builder
                    mapper.NotNullable(true);
                    mapper.Cascade(Cascade.None);
                });
-               
+                e.Set(p => p.Grid, p =>
+                  {
+                      p.Inverse(true);
+                      p.Cascade(Cascade.All);
+                      p.Key(k => k.Column(col => col.Name("PlayerId")));
+                  }, p => p.OneToMany());
                 e.ManyToOne(p => p.UserPerson, mapper =>
                 {
                     mapper.Column("UserPersonId");
@@ -123,6 +130,12 @@ namespace Battleships.net.DataBase.Builder
                     mapper.NotNullable(false);
                     mapper.Cascade(Cascade.None);
                 });
+                e.ManyToOne(p => p.Player, mapper =>
+                 {
+                     mapper.Column("PlayerId");
+                     mapper.NotNullable(true);
+                     mapper.Cascade(Cascade.None);
+                 });
             });
         }
     }

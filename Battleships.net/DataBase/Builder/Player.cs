@@ -14,5 +14,6 @@ namespace Battleships.net.DataBase.Builder
         public virtual Game Game { get; set; }
         public virtual ICollection<Ship> Ship { get; set; }
         public virtual bool IsHost { get; set; }
+        public virtual ICollection<Grid> Grid { get; set; }
     }
 }
