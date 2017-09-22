@@ -7,6 +7,7 @@ using NHibernate;
 using Battleships.net.DataBase.Builder;
 using NHibernate.Linq;
 using NHibernate.Criterion;
+using Battleships.net.Services;
 
 namespace Battleships.net.DataBase.Setup
 {
@@ -16,6 +17,10 @@ namespace Battleships.net.DataBase.Setup
         public Setup(ISession session)
         {
             Session = session;
+        }
+        public Setup()
+        {
+            Session = DbService.OpenSession();
         }
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public UserPerson AddAndOrLoadUser(string name)
@@ -35,6 +40,11 @@ namespace Battleships.net.DataBase.Setup
                 user = Session.Query<UserPerson>().Where(u => u.NickName == name).First(); 
             }
             return user;
+        }
+
+        public void CloseSession()
+        {
+            DbService.CloseSession(Session);
         }
 
         public Game CreateGame(string name1 , string name2)
@@ -98,7 +108,7 @@ namespace Battleships.net.DataBase.Setup
             
         }
 
-        private bool CanShipFitHere(string startGrid, string orientation, int length)
+        private bool CanShipFitHere(Ship ship)
         {
             throw new NotImplementedException();
         }
@@ -109,17 +119,16 @@ namespace Battleships.net.DataBase.Setup
         /// <param name="orientation"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public bool PlaceShipHere(string startGrid, string orientation, int length)
+        public void PlaceShipHere(Ship ship , string[] coordinates)
         {
-            if (CanShipFitHere(startGrid, orientation, length))
+            Session.Save(ship);
+            foreach (string coordinate in coordinates)
             {
-                throw new NotImplementedException();
-                return true;
+                Grid thisGrid = Session.Query<Grid>().Where(p => p.Coordinate == coordinate).Single();
+                thisGrid.Ship = ship;
+                Session.Save(thisGrid);
             }
-            else
-            {
-                return false;
-            }
+            
         }
 
         public List<Grid> GetGrid()
@@ -153,7 +162,15 @@ namespace Battleships.net.DataBase.Setup
             }
         }
 
-
+        public static void UpdateGridToDB(List<Grid> gridList)
+        {
+            var session = DbService.OpenSession();
+            foreach (Grid grid in gridList)
+            {
+                session.Save(grid);
+            }
+            DbService.CloseSession(session);
+        }
 
     }
 }
