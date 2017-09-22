@@ -11,6 +11,7 @@ namespace Battleships.net.Models
         public bool HitShip { get; set; }
         //public bool SunkTheShip { get;}
         public Ship SunkenShip { get; set; }
+        public bool GameOver { get; set; }
         public bool SunkTheShip
         {
             get {
